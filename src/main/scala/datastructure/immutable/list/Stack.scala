@@ -7,34 +7,29 @@ package datastructure.immutable.list
 * */
 trait Stack[+T] {
   def isEmpty: Boolean
-
   def push[U >: T](t: U): Stack[U] = NonEmpty(t, this)
-
   def pop: (T, Stack[T])
-
   def ++[U >: T](stack: Stack[U]): Stack[U]
-
   def update[U >: T](t: U, i: Int): Stack[U]
-
   def head: T
-
   def tail: Stack[T]
 }
 
+/*
+   Represents an empty stack
+ */
 case object Empty extends Stack[Nothing] {
   def isEmpty = true
-
   def ++[U](stack: Stack[U]): Stack[U]  = NonEmpty(stack.head, stack.tail)
-
   def head: Nothing = throw new NoSuchElementException
-
   def tail: Nothing = throw new NoSuchElementException
-
   def pop: Nothing = throw new NoSuchElementException
-
   def update[U](t: U, i: Int): Stack[U] = throw new IndexOutOfBoundsException
 }
 
+/*
+  Represents a non empty stack/element
+ */
 case class NonEmpty[+T](hd: T, tl: Stack[T]) extends Stack[T] {
 
   def isEmpty: Boolean = false
