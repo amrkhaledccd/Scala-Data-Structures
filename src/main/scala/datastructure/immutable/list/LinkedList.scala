@@ -9,6 +9,10 @@ case class ::[+A](hd: A, tl: LinkedList[A]) extends LinkedList[A]
 
 object LinkedList {
 
+  /*
+     Initializes LinkedList
+     val linkedList = LinkedList(1, 2, 3, 4, 5)
+   */
   def apply[A](items: A*): LinkedList[A] = {
     if(items.isEmpty) Nil
     else ::(items.head, apply(items.tail: _*))
@@ -18,7 +22,7 @@ object LinkedList {
 class LinkedList[+A] {
 
   /*
-  returns true if the list is empty
+    returns true if the list is empty
    */
   def isEmpty: Boolean = this match {
       case Nil => true
@@ -26,7 +30,7 @@ class LinkedList[+A] {
   }
 
   /*
-  returns the first element in the list
+    returns the first element in the list
    */
   def head: A = this match {
     case Nil => throw new NoSuchElementException
@@ -89,7 +93,7 @@ class LinkedList[+A] {
   }
 
   /*
-   Adds new element (value) at the beginning of the current list (this)
+    Adds new element (value) at the beginning of the current list (this)
    */
   def prepend[T >: A](value: T): LinkedList[T] = this match {
     case Nil => ::(value, Nil)
