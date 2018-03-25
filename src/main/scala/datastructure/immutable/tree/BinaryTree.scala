@@ -3,7 +3,7 @@ package datastructure.immutable.tree
 
 case object Leaf extends BinaryTree[Nothing]
 
-case class Branch[+A](value: A, left: BinaryTree[A], right: BinaryTree[A]) extends BinaryTree[A]
+case class Branch[+A](data: A, left: BinaryTree[A], right: BinaryTree[A]) extends BinaryTree[A]
 
 object BinaryTree {
 
@@ -44,9 +44,9 @@ class BinaryTree[+A] {
     Compares two trees
     return true if they are equal (values and structure)
    */
-  def compare[B >: A](that: BinaryTree[B]): Boolean = (this, that) match {
+  def compare[A](that: BinaryTree[A]): Boolean = (this, that) match {
     case (Leaf, Leaf) => true
-    case (Branch(v1, l1, r1), Branch(v2, l2, r2)) if (v1 == v2) => l1.compare(l2) && r1.compare(r2)
+    case (Branch(d1, l1, r1), Branch(d2, l2, r2)) if (d1 == d2) => l1.compare(l2) && r1.compare(r2)
     case _ => false
   }
 
@@ -55,15 +55,15 @@ class BinaryTree[+A] {
    */
   def flip: BinaryTree[A] = this match {
     case Leaf => Leaf
-    case Branch(v, l, r) => Branch(v, r.flip, l.flip)
+    case Branch(d, l, r) => Branch(d, r.flip, l.flip)
   }
 
   /*
     Checks if "that" tree is the flip of the current tree (this)
    */
-  def flipEqual[B >: A](that: BinaryTree[B]): Boolean = (this, that) match {
+  def flipEqual[A](that: BinaryTree[A]): Boolean = (this, that) match {
     case (Leaf, Leaf) => true
-    case (Branch(v1, l1, r1), Branch(v2, l2, r2)) if(v1 == v2) => l1.flipEqual(r2) && r1.flipEqual(l2)
+    case (Branch(d1, l1, r1), Branch(d2, l2, r2)) if(d1 == d2) => l1.flipEqual(r2) && r1.flipEqual(l2)
     case _ => false
   }
 

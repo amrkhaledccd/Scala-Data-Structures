@@ -1,26 +1,40 @@
 package datastructure.immutable.tree
 
+
 case object LeafNode extends BinarySearchTree[Nothing]
 
-case class BranchNode[+A](value: A, left: BinarySearchTree[A], right: BinarySearchTree[A]) extends BinarySearchTree[A]
+case class BranchNode[+A <% Ordered[A]](data: A, left: BinarySearchTree[A], right: BinarySearchTree[A]) extends BinarySearchTree[A]
 
 object BinarySearchTree {
 
   /*
-   * Initializes Binary search tree
+   * Constructs Binary search tree from Vector
+   * Sort the array
+   * Make the middle of the array the root
+   * Recursively do same for left half and right half
    * val tree = BinarySearchTree(10, 12, 6, 14)
    */
-  def apply[A](items: A*): BinarySearchTree[A] = {
+  def apply[A <% Ordered[A]](items: Vector[A]): BinarySearchTree[A] = {
     if(items.isEmpty) {
       LeafNode
     }
     else{
-      BranchNode(items.head, apply(items.tail.take(items.size/2): _*), apply(items.tail.drop(items.size/2): _*))
+
+      def bst(items: Seq[A]): BinarySearchTree[A] = items.size match {
+          case 0 => LeafNode
+          case 1 => BranchNode(items.head, LeafNode, LeafNode)
+          case _ => {
+            val half = items.size/2
+            BranchNode(items(half), bst(items.take(half)), bst(items.drop(half + 1)))
+          }
+        }
+
+      bst(items.sorted)
     }
   }
 }
 
-class BinarySearchTree[+A] {
+class BinarySearchTree[+A <% Ordered[A]] {
 
   /*
       Return the size of the tree
@@ -43,10 +57,18 @@ class BinarySearchTree[+A] {
     Compares two trees
     return true if they are equal (values and structure)
    */
-  def compare[B >: A](that: BinarySearchTree[B]): Boolean = (this, that) match {
+  def compare[A](that: BinarySearchTree[A]): Boolean = (this, that) match {
     case (LeafNode, LeafNode) => true
-    case (BranchNode(v1, l1, r1), BranchNode(v2, l2, r2)) if (v1 == v2) => l1.compare(l2) && r1.compare(r2)
+    case (BranchNode(d1, l1, r1), BranchNode(d2, l2, r2)) if (d1 == d2) => l1.compare(l2) && r1.compare(r2)
     case _ => false
+  }
+
+  /*
+    Adds new node
+   */
+  def insert[B >: A <% Ordered[B]](data: B): BinarySearchTree[B] = this match {
+    case LeafNode => BranchNode(data, LeafNode, LeafNode)
+    case BranchNode(d, l, r) => if(data < d) BranchNode(d,l.insert(data), r) else BranchNode(d,l, r.insert(data))
   }
 
 }
