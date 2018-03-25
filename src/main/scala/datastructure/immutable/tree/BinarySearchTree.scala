@@ -1,6 +1,5 @@
 package datastructure.immutable.tree
 
-
 case object LeafNode extends BinarySearchTree[Nothing]
 
 case class BranchNode[+A <% Ordered[A]](data: A, left: BinarySearchTree[A], right: BinarySearchTree[A]) extends BinarySearchTree[A]
@@ -12,7 +11,7 @@ object BinarySearchTree {
    * Sort the array
    * Make the middle of the array the root
    * Recursively do same for left half and right half
-   * val tree = BinarySearchTree(10, 12, 6, 14)
+   * val tree = BinarySearchTree(Vector(10, 12, 6, 14))
    */
   def apply[A <% Ordered[A]](items: Vector[A]): BinarySearchTree[A] = {
     if(items.isEmpty) {
