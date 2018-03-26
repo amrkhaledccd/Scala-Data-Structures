@@ -21,7 +21,6 @@ object BinarySearchTree {
 
       def bst(items: Vector[A]): BinarySearchTree[A] = items.size match {
           case 0 => LeafNode
-          case 1 => BranchNode(items.head, LeafNode, LeafNode)
           case _ => {
             val half = items.size/2
             BranchNode(items(half), bst(items.take(half)), bst(items.drop(half + 1)))
