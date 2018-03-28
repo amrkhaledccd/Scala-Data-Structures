@@ -14,8 +14,9 @@ object ScalaDatastructure {
     implicit def empToOrderedEmp(emp: Emp): Ordered[Emp] = emp2 => emp.age.compareTo(emp2.age)
     val bst = BinarySearchTree(Vector(Emp("Amr", 8), Emp("Ahmed", 5), Emp("Hossam", 12)))
 
-    println(bst)
+    val bst1 = BinarySearchTree(Vector(8, 3, 12))
 
+    println(bst1.preOrderTraversal)
   }
 
   def sum(a: Int, b: Int)(c: Int, d: Int) : Int = {

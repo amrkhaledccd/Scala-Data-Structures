@@ -22,7 +22,7 @@ object BinarySearchTree {
       def bst(items: Vector[A]): BinarySearchTree[A] = items.size match {
           case 0 => LeafNode
           case _ => {
-            val half = items.size/2
+            val half = items.size / 2
             BranchNode(items(half), bst(items.take(half)), bst(items.drop(half + 1)))
           }
         }
@@ -69,4 +69,42 @@ class BinarySearchTree[+A <% Ordered[A]] {
     case BranchNode(d, l, r) => if(data < d) BranchNode(d,l.insert(data), r) else BranchNode(d,l, r.insert(data))
   }
 
+  /*
+    Visits node -> left -> right
+   */
+  def preOrderTraversal: List[A] =  {
+
+    def loop(tree: BinarySearchTree[A], accumulator: List[A]): List[A] = tree match {
+      case LeafNode => accumulator
+      case BranchNode(d, l, r) => d :: loop(l, loop(r, accumulator))
+    }
+
+    loop(this, Nil)
+  }
+
+  /*
+    Visits left -> node -> right
+   */
+  def inOrderTraversal: List[A] = {
+
+    def loop(tree: BinarySearchTree[A], accumulator: List[A]) : List[A]= tree match {
+      case LeafNode => accumulator
+      case BranchNode(d, l, r) => loop(l, d :: loop(r, accumulator))
+    }
+
+    loop(this, Nil)
+  }
+
+  /*
+    Visits left -> right -> node
+   */
+  def postOrderTraversal: List[A] = {
+
+    def loop(tree: BinarySearchTree[A], accumulator: List[A]): List[A] = tree match {
+      case LeafNode => Nil
+      case BranchNode(d, l, r) => loop(l, loop(r, d :: accumulator))
+    }
+
+    loop(this, Nil)
+  }
 }
