@@ -17,6 +17,7 @@ object ScalaDatastructure {
     val bst1 = BinarySearchTree(Vector(8, 3, 12))
     println(bst1.preOrderTraversal)
 
+    println(bst1.find(3))
     val mappedBst1 = bst1.map(x => x * 2)
     println(mappedBst1.preOrderTraversal)
 

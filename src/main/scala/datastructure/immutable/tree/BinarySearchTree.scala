@@ -1,5 +1,7 @@
 package datastructure.immutable.tree
 
+import scala.annotation.tailrec
+
 case object LeafNode extends BinarySearchTree[Nothing]
 
 case class BranchNode[+A <% Ordered[A]](data: A, left: BinarySearchTree[A], right: BinarySearchTree[A]) extends BinarySearchTree[A]
@@ -67,6 +69,23 @@ class BinarySearchTree[+A <% Ordered[A]] {
   def map[B <% Ordered[B]](f: A => B): BinarySearchTree[B] = this match {
     case LeafNode => LeafNode
     case BranchNode(d, l, r) => BranchNode(f(d), l.map(f), r.map(f))
+  }
+
+  /*
+    For simplicity the key is the same as the value
+    If key found return option[key] otherwise return Nones
+   */
+  def find[B >:A <% Ordered[B]](key: B): Option[B] = {
+
+    @tailrec
+    def loop(tree: BinarySearchTree[B], key: B): Option[B] = tree match {
+      case LeafNode => None
+      case BranchNode(d, _, _) if key == d => Some(d)
+      case BranchNode(d, l, _) if key < d => loop(l , key)
+      case BranchNode(d, _, r) if key > d => loop(r, key)
+    }
+
+    loop(this, key)
   }
 
   /*
