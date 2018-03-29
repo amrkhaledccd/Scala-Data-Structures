@@ -62,6 +62,14 @@ class BinarySearchTree[+A <% Ordered[A]] {
   }
 
   /*
+    Apply function f to each node
+   */
+  def map[B <% Ordered[B]](f: A => B): BinarySearchTree[B] = this match {
+    case LeafNode => LeafNode
+    case BranchNode(d, l, r) => BranchNode(f(d), l.map(f), r.map(f))
+  }
+
+  /*
     Adds new node
    */
   def insert[B >: A <% Ordered[B]](data: B): BinarySearchTree[B] = this match {

@@ -15,8 +15,11 @@ object ScalaDatastructure {
     val bst = BinarySearchTree(Vector(Emp("Amr", 8), Emp("Ahmed", 5), Emp("Hossam", 12)))
 
     val bst1 = BinarySearchTree(Vector(8, 3, 12))
-
     println(bst1.preOrderTraversal)
+
+    val mappedBst1 = bst1.map(x => x * 2)
+    println(mappedBst1.preOrderTraversal)
+
   }
 
   def sum(a: Int, b: Int)(c: Int, d: Int) : Int = {
