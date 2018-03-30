@@ -97,9 +97,9 @@ class BinarySearchTree[+A <% Ordered[A]] {
   }
 
   /*
-    Visits node -> left -> right
+    converts tree to list in a pre order (node -> left -> right)
    */
-  def preOrderTraversal: List[A] =  {
+  def toPreOrderList: List[A] =  {
 
     def loop(tree: BinarySearchTree[A], accumulator: List[A]): List[A] = tree match {
       case LeafNode => accumulator
@@ -110,9 +110,9 @@ class BinarySearchTree[+A <% Ordered[A]] {
   }
 
   /*
-    Visits left -> node -> right
+    converts tree to list in an in order (left -> node -> right)
    */
-  def inOrderTraversal: List[A] = {
+  def toInOrderList: List[A] = {
 
     def loop(tree: BinarySearchTree[A], accumulator: List[A]) : List[A]= tree match {
       case LeafNode => accumulator
@@ -123,9 +123,9 @@ class BinarySearchTree[+A <% Ordered[A]] {
   }
 
   /*
-    Visits left -> right -> node
+    converts tree to list in a post order (left -> right -> node)
    */
-  def postOrderTraversal: List[A] = {
+  def toPostOrderList: List[A] = {
 
     def loop(tree: BinarySearchTree[A], accumulator: List[A]): List[A] = tree match {
       case LeafNode => Nil
@@ -134,4 +134,42 @@ class BinarySearchTree[+A <% Ordered[A]] {
 
     loop(this, Nil)
   }
+
+
+  /*
+  Visits node -> left -> right
+ */
+  def preOrderTraversal(f: A => Unit): Unit = this match {
+    case BranchNode(d, l, r) => {
+      f(d)
+      l.preOrderTraversal(f)
+      r.preOrderTraversal(f)
+    }
+    case _ => Unit
+  }
+
+  /*
+    Visits left -> node -> right
+   */
+  def inOrderTraversal(f: A => Unit): Unit = this match {
+    case BranchNode(d, l, r) => {
+      l.inOrderTraversal(f)
+      f(d)
+      r.inOrderTraversal(f)
+    }
+    case _ => Unit
+  }
+
+  /*
+    Visits left -> right -> node
+   */
+  def postOrderTraversal(f: A => Unit): Unit = this match {
+    case BranchNode(d, l, r) => {
+      l.postOrderTraversal(f)
+      r.postOrderTraversal(f)
+      f(d)
+    }
+    case _ => Unit
+  }
+
 }

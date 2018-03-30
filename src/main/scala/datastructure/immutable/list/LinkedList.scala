@@ -62,6 +62,20 @@ class LinkedList[+A] {
   }
 
   /*
+    Reverses the current(this) list
+   */
+  def reverse: LinkedList[A] =  {
+
+    @tailrec
+    def loop(accumulator: LinkedList[A], list: LinkedList[A]): LinkedList[A] = list match {
+      case Nil => accumulator
+      case (h :: t) => loop(::(h, accumulator), t)
+    }
+
+    loop(Nil, this)
+  }
+
+  /*
   Drops nth elements from the beginning of the current list (this)
    */
   def drop(count: Int): LinkedList[A] = {
@@ -95,43 +109,53 @@ class LinkedList[+A] {
   /*
     Adds new element (value) at the beginning of the current list (this)
    */
-  def prepend[T >: A](value: T): LinkedList[T] = this match {
+  def prepend[B >: A](value: B): LinkedList[B] = this match {
     case Nil => ::(value, Nil)
     case l => ::(value, l)
   }
 
   /*
-    Reverses the current(this) list
+    Adds "that" list at the beginning of current (this) list
    */
-  def reverse: LinkedList[A] =  {
+  def prependAll[B >: A](that: LinkedList[B]): LinkedList[B] = {
 
     @tailrec
-    def loop(accumulator: LinkedList[A], list: LinkedList[A]): LinkedList[A] = list match {
-      case Nil => accumulator
-      case (h :: t) => loop(::(h, accumulator), t)
+    def loop(list: LinkedList[B], that: LinkedList[B]): LinkedList[B] = that match {
+      case Nil => list
+      case h :: t => loop(list.prepend(h), t)
     }
 
-    loop(Nil, this)
+    loop(this, that.reverse)
   }
 
   /*
     Adds "that" list in front of current (this) list
    */
-  def ++[T >: A] (that: LinkedList[T]): LinkedList[T] = {
-
-    @tailrec
-    def loop(list: LinkedList[T], that: LinkedList[T]): LinkedList[T] = list match {
-      case Nil => that
-      case (h :: t) => loop(t, that.prepend(h))
-    }
-
-    loop(this.reverse, that)
+  def ++[B >: A] (that: LinkedList[B]): LinkedList[B] = {
+    that prependAll this
   }
 
   /*
     Adds an element in front of current list (this)
    */
-  def append[T >: A](value: T): LinkedList[T] = {
+  def append[B >: A](value: B): LinkedList[B] = {
     this ++ LinkedList(value)
   }
+
+  /*
+    Deletes element at index
+   */
+  def delete(index: Int): LinkedList[A] = {
+
+    @tailrec
+    def loop(list: LinkedList[A],accumulator: LinkedList[A], idx: Int): LinkedList[A] = (list, idx) match {
+      case (Nil, _) => throw new ArrayIndexOutOfBoundsException
+      case (_, i) if i < 0 => throw new ArrayIndexOutOfBoundsException
+      case (_ :: t, 0) => t prependAll accumulator.reverse
+      case (h :: t, i) => loop(t, ::(h, accumulator), i - 1)
+    }
+
+    loop(this, Nil, index)
+  }
+
 }
