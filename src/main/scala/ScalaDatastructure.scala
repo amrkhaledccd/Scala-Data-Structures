@@ -6,6 +6,10 @@ object ScalaDatastructure {
 
   def main(args: Array[String]): Unit = {
 
+    val list = LinkedList(2, 4, 6, 8, 10)
+    list.traverse(x => print(s"$x "))
+    println()
+
     val linkedList = LinkedList(5, 6, 8, 1, 4, 15, 16)
     println(linkedList)
 

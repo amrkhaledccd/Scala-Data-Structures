@@ -46,6 +46,23 @@ class LinkedList[+A] {
   }
 
   /*
+    Apply function f on each node
+   */
+  def traverse(f: A => Unit): Unit =  {
+
+    @tailrec
+    def loop(list: LinkedList[A]): Unit = list match {
+      case h :: t => {
+        f(h)
+        loop(t)
+      }
+      case _ => Unit
+    }
+
+    loop(this)
+  }
+
+  /*
     Gets an element at index
    */
   def get(index: Int): A = {
