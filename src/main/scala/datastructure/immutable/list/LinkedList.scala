@@ -145,6 +145,20 @@ class LinkedList[+A] {
   }
 
   /*
+    Adds reversed "that" list at the beginning of current (this) list
+   */
+  def prependAllReversed[B >: A](that: LinkedList[B]): LinkedList[B] = {
+
+    @tailrec
+    def loop(list: LinkedList[B], that: LinkedList[B]): LinkedList[B] = that match {
+      case Nil => list
+      case h :: t => loop(list.prepend(h), t)
+    }
+
+    loop(this, that)
+  }
+
+  /*
     Adds "that" list in front of current (this) list
    */
   def ++[B >: A] (that: LinkedList[B]): LinkedList[B] = {
@@ -167,7 +181,7 @@ class LinkedList[+A] {
     def loop(list: LinkedList[A],accumulator: LinkedList[A], idx: Int): LinkedList[A] = (list, idx) match {
       case (Nil, _) => throw new ArrayIndexOutOfBoundsException
       case (_, i) if i < 0 => throw new ArrayIndexOutOfBoundsException
-      case (_ :: t, 0) => t prependAll accumulator.reverse
+      case (_ :: t, 0) => t prependAllReversed accumulator
       case (h :: t, i) => loop(t, ::(h, accumulator), i - 1)
     }
 
