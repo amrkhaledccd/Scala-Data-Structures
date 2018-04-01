@@ -126,9 +126,8 @@ class LinkedList[+A] {
   /*
     Adds new element (value) at the beginning of the current list (this)
    */
-  def prepend[B >: A](value: B): LinkedList[B] = this match {
-    case Nil => ::(value, Nil)
-    case l => ::(value, l)
+  def prepend[B >: A](value: B): LinkedList[B] =  {
+    ::(value, this)
   }
 
   /*
