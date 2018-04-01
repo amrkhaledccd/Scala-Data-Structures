@@ -93,7 +93,7 @@ class LinkedList[+A] {
   }
 
   /*
-  Drops nth elements from the beginning of the current list (this)
+  Drops n elements from the beginning of the current list (this)
    */
   def drop(count: Int): LinkedList[A] = {
 
