@@ -16,10 +16,6 @@ object BinarySearchTree {
    * val tree = BinarySearchTree(Vector(10, 12, 6, 14))
    */
   def apply[A <% Ordered[A]](items: Vector[A]): BinarySearchTree[A] = {
-    if(items.isEmpty) {
-      LeafNode
-    }
-    else{
 
       def bst(items: Vector[A]): BinarySearchTree[A] = items.size match {
           case 0 => LeafNode
@@ -30,7 +26,6 @@ object BinarySearchTree {
         }
 
       bst(items.sorted)
-    }
   }
 }
 
