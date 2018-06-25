@@ -20,6 +20,7 @@ object ScalaDatastructure {
 
 
     implicit def empToOrderedEmp(emp: Emp): Ordered[Emp] = that => emp.age.compareTo(that.age)
+
     val bst = BinarySearchTree(Vector(Emp("Amr", 8), Emp("Ahmed", 5), Emp("Hossam", 12)))
     println(bst.toInOrderList)
 

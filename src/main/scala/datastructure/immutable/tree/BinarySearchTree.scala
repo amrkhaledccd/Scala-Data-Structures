@@ -91,6 +91,17 @@ class BinarySearchTree[+A <% Ordered[A]] {
     case BranchNode(d, l, r) => if(data < d) BranchNode(d,l.insert(data), r) else BranchNode(d,l, r.insert(data))
   }
 
+  def insertTailRec[B >:A <% Ordered[B]](data: B): BinarySearchTree[B] = {
+
+    @tailrec
+    def loop(tree: BinarySearchTree[B], data: B): BinarySearchTree[B] = tree match {
+      case LeafNode => BranchNode(data, LeafNode, LeafNode)
+      case BranchNode(d, l, r) => if(data < d) loop(l , data) else loop(r , data)
+    }
+
+    loop(this, data)
+  }
+
   /*
     converts tree to list in a pre order (node -> left -> right)
    */
